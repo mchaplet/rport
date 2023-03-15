@@ -35,17 +35,6 @@ jobs:
           echo ::set-output name=commit_sha::$(git rev-parse HEAD)
 
 
-      - name: Checkout, build and release Rport Plus
-        id: rport_plus_build
-        env:
-          RPORT_GIT_REF: ${{github.ref_name}}
-          RPORT_COMMIT_ID: ${{ steps.rport_commit_info.outputs.commit_sha }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RPORT_PLUS_PRIV_KEY: ${{ secrets.RPORT_PLUS_PRIV_KEY }}
-        run: | 
-          bash .github/scripts/build-plus.sh
-          bash .github/scripts/release-plus.sh
-
       - name: Create RPM and DEB packages
         id: create_pkgs
         run: bash opt/fpm/package.sh
